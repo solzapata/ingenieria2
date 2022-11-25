@@ -1,6 +1,7 @@
 import "./App.css";
 import ContentContainer from "./components/ContentContainer";
 import { CuponProvider } from "./context/CuponContext";
+import { UserProvider } from "./context/UserContext";
 import Categorias from "./ui/Categorias";
 import Locales from "./ui/Locales";
 import Provincias from "./ui/Provincias";
@@ -15,13 +16,15 @@ const db = new PouchDB("local");
 function App() {
   return (
     <Provider pouchdb={db}>
-      <CuponProvider>
-        <Categorias />
-        <ContentContainer>
-          <Provincias />
-          <Locales />
-        </ContentContainer>
-      </CuponProvider>
+      <UserProvider>
+        <CuponProvider>
+          <Categorias />
+          <ContentContainer>
+            <Provincias />
+            <Locales />
+          </ContentContainer>
+        </CuponProvider>
+      </UserProvider>
     </Provider>
   );
 }

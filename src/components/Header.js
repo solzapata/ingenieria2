@@ -8,6 +8,7 @@ const StyledContainer = styled.div`
   margin-left: auto;
   justify-content: space-evenly;
   padding: 2% 0;
+  flex-direction: column;
 `;
 
 function Header({ children }) {

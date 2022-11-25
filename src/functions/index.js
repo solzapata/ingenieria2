@@ -1,6 +1,6 @@
-// import { useFind } from "use-pouchdb";
 import { nanoid } from "nanoid";
 
+// SE GENERA UN ID RANDOM
 export const UseNewRandomId = (prefix) => {
   return prefix + nanoid();
 };
