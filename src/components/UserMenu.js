@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import UserContext from "../context/UserContext";
+import Modal from "./Modal";
 
 const StyledMenu = styled.div`
   display: flex;
@@ -36,21 +38,46 @@ const StyledMenu = styled.div`
   }
 `;
 
-function UserMenu({ onClick, children }) {
+function UserMenu({ onClick, data }) {
+  const [modalContent, setModalContent] = useState("");
+
+  const { showModal, setShowModal } = useContext(UserContext);
+
   return (
-    <StyledMenu>
-      <button className={children !== "admin" && "inactive"}>
-        Agregar locales
-      </button>
+    <>
+      <StyledMenu>
+        <button
+          className={data !== "admin" && "inactive"}
+          onClick={() => {
+            setModalContent("local");
+            setShowModal(true);
+          }}
+        >
+          Agregar locales
+        </button>
 
-      <p onClick={() => onClick()}>
-        Usted es un usuario <span>{children}</span>
-      </p>
+        <p
+          onClick={() => {
+            onClick();
+          }}
+        >
+          Usted es un usuario <span>{data}</span>
+        </p>
 
-      <button className={children !== "admin" && "inactive"}>
-        Agregar cupones
-      </button>
-    </StyledMenu>
+        <button
+          className={data !== "admin" && "inactive"}
+          onClick={() => {
+            setModalContent("cupon");
+            setShowModal(true);
+          }}
+        >
+          Agregar cupones
+        </button>
+      </StyledMenu>
+      {showModal && (
+        <Modal data={modalContent} accion="Agregar" close={setShowModal} />
+      )}
+    </>
   );
 }
 
