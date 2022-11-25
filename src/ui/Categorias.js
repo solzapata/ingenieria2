@@ -1,27 +1,16 @@
 import React, { useContext } from "react";
 
-import Header from "../components/Header";
+import CategoriasMenu from "../components/CategoriasMenu";
 import Label from "../components/Label";
 import Row from "../components/Row";
-import UserMenu from "../components/UserMenu";
 import CuponContext from "../context/CuponContext";
-import UserContext from "../context/UserContext";
 import { categorias } from "../data/categorias";
 
 function Categorias() {
   const { categoria, setCategoria } = useContext(CuponContext);
 
-  const { user, setUser } = useContext(UserContext);
-
   return (
-    <Header>
-      <UserMenu
-        onClick={() => {
-          setUser((prevUser) => (prevUser === "final" ? "admin" : "final"));
-        }}
-      >
-        {user}
-      </UserMenu>
+    <CategoriasMenu>
       <Row>
         {categorias.map((e) => {
           return (
@@ -39,7 +28,7 @@ function Categorias() {
           );
         })}
       </Row>
-    </Header>
+    </CategoriasMenu>
   );
 }
 

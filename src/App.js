@@ -9,6 +9,7 @@ import Provincias from "./ui/Provincias";
 import PouchDB from "pouchdb-browser";
 import { Provider } from "use-pouchdb";
 import PouchDBFind from "pouchdb-find";
+import Menu from "./ui/Menu";
 PouchDB.plugin(PouchDBFind);
 
 const db = new PouchDB("local");
@@ -18,6 +19,7 @@ function App() {
     <Provider pouchdb={db}>
       <UserProvider>
         <CuponProvider>
+          <Menu />
           <Categorias />
           <ContentContainer>
             <Provincias />

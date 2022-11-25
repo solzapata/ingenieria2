@@ -11,8 +11,8 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
-function Header({ children }) {
+function CategoriasMenu({ children }) {
   return <StyledContainer>{children}</StyledContainer>;
 }
 
-export default Header;
+export default CategoriasMenu;

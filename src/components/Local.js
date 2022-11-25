@@ -16,15 +16,16 @@ const StyledLocal = styled.div`
   }
 
   & div {
-    padding: 20px;
+    padding: 10px 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: calc(50% - 40px);
+    height: calc(50% - 20px);
 
     & h3,
-    & h4 {
-      margin: 5px 0;
+    & h4,
+    & p {
+      margin: 0 0 5px;
     }
 
     & button {
@@ -50,7 +51,10 @@ export default function Local({ props }) {
       <img src={props.img} alt="Local" />
       <div>
         <h3>{props.name}</h3>
-        <h4>{props.descripcion}</h4>
+        <h4>
+          {props.descripcion} - {props.local}
+        </h4>
+        <p>{props.direccion}</p>
         <button>
           <a href={props.pdf} target="_blank" rel="noreferrer">
             Descargar cupón
