@@ -8,10 +8,18 @@ export const UseNewRandomId = (prefix) => {
 // AGREGA ELEMENTO A LA BDD
 // se le agrega un id random
 // se lo identifica a traves de la entidad
-export const addInDatabase = (db, data, entity) => {
+export const addInDatabase = (db, data, entity, setData, setShowModal) => {
   var newId = UseNewRandomId(entity);
 
-  db?.put({ ...data, _id: newId, entity: entity });
+  db?.put({ ...data, _id: newId, entity: entity })
+    .then(function (response) {
+      console.log(response);
+      setData({});
+      setShowModal(false);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
 };
 
 // SE BUSCAN UNO O MAS ELEMENTOS A TRAVES DE LA ENTIDAD

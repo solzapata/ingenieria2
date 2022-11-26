@@ -47,7 +47,7 @@ function UserMenu({ onClick, data }) {
     <>
       <StyledMenu>
         <button
-          className={data !== "admin" && "inactive"}
+          className={data !== "admin" ? "inactive" : ""}
           onClick={() => {
             setModalContent("local");
             setShowModal(true);
@@ -65,7 +65,7 @@ function UserMenu({ onClick, data }) {
         </p>
 
         <button
-          className={data !== "admin" && "inactive"}
+          className={data !== "admin" ? "inactive" : ""}
           onClick={() => {
             setModalContent("cupon");
             setShowModal(true);
@@ -74,9 +74,7 @@ function UserMenu({ onClick, data }) {
           Agregar cupones
         </button>
       </StyledMenu>
-      {showModal && (
-        <Modal data={modalContent} accion="Agregar" close={setShowModal} />
-      )}
+      {showModal && <Modal data={modalContent} accion="Agregar" />}
     </>
   );
 }
