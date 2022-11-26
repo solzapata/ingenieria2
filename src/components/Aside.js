@@ -10,6 +10,10 @@ const StyledAside = styled.div`
     padding-left: 30px;
     margin-top: 0;
   }
+
+  & .not-yet {
+    padding-left: 30px;
+  }
 `;
 
 function Aside({ children }) {

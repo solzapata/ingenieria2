@@ -45,13 +45,14 @@ export const findByEntity = (db, entity, setData) => {
 };
 
 // SE ELIMINA UN ELEMENTO DE LA BDD SEGUN EL ID
-export const deleteInDatabase = (db, id) => {
+export const deleteInDatabase = (db, id, setSentData) => {
   db.get(id)
     .then(function (doc) {
       return db.remove(doc);
     })
     .then(function (result) {
       console.log(result);
+      setSentData((prevSentData) => !prevSentData);
     })
     .catch(function (err) {
       console.log(err);

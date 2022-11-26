@@ -25,10 +25,14 @@ function Aside() {
       <h3>Filtrar por local</h3>
       {locales?.docs?.length > 0 ? (
         locales?.docs?.map((e) => {
-          return <Label>{e.name}</Label>;
+          return (
+            <Label key={e._id} onClick={() => {}}>
+              {e}
+            </Label>
+          );
         })
       ) : (
-        <span>Aún no existen locales</span>
+        <span className="not-yet">Aún no existen locales</span>
       )}
     </StyledAside>
   );
