@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { usePouch } from "use-pouchdb";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
-import { getByIdInDatabase } from "../functions";
+import UserContext from "../context/UserContext";
+import { getByIdInDatabase, deleteInDatabase } from "../functions";
+import Modal from "./Modal";
 
 const StyledCupon = styled.div`
   border: 1px solid black;
@@ -12,13 +15,26 @@ const StyledCupon = styled.div`
   height: 300px;
   overflow: hidden;
 
+  & .admin-edit {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    flex-direction: row;
+    height: auto;
+
+    & .title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+
   & img {
     width: 100%;
     height: 50%;
     object-fit: cover;
   }
 
-  & div {
+  & .content {
     padding: 10px 20px;
     display: flex;
     flex-direction: column;
@@ -46,10 +62,34 @@ const StyledCupon = styled.div`
       }
     }
   }
+
+  & .icons {
+    & svg {
+      cursor: pointer;
+      margin-left: 15px;
+      font-size: 20px;
+    }
+  }
+
+  & .edit,
+  & .delete {
+    transition: 0.2s ease-in;
+  }
+
+  & .edit:hover {
+    color: orange;
+  }
+
+  & .delete:hover {
+    color: darkred;
+  }
 `;
 
 export default function Cupon({ props }) {
   const [currentLocal, setCurrentLocal] = useState();
+  const [showEditingModal, setShowEditingModal] = useState(false);
+
+  const { user, setSentData } = useContext(UserContext);
 
   const db = usePouch();
 
@@ -63,8 +103,32 @@ export default function Cupon({ props }) {
   return (
     <StyledCupon>
       <img src={props.img} alt="Cupon" />
-      <div>
-        <h3>{props.name}</h3>
+      <div className="content">
+        <div className="admin-edit">
+          <span className="title">{props.name}</span>
+          {user === "admin" && (
+            <>
+              <span className="icons">
+                <AiFillEdit
+                  className="edit"
+                  onClick={() => setShowEditingModal(true)}
+                />
+                <AiFillDelete
+                  className="delete"
+                  onClick={() => deleteInDatabase(db, props._id, setSentData)}
+                />
+              </span>
+              {showEditingModal && (
+                <Modal
+                  data={props.entity}
+                  accion="Editar"
+                  editing={props}
+                  close={setShowEditingModal}
+                />
+              )}
+            </>
+          )}
+        </div>
         <h4>
           {props.descripcion}{" "}
           {currentLocal?.name ? " - " + currentLocal?.name : ""}
