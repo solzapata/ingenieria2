@@ -22,8 +22,8 @@ const Buttons = styled.div`
   }
 `;
 
-const ButtonsContainer = ({ data, obligatory, setData }) => {
-  const { setShowModal } = useContext(UserContext);
+const ButtonsContainer = ({ data, entity, obligatory, setData }) => {
+  const { setShowModal, setSentData } = useContext(UserContext);
 
   const db = usePouch();
 
@@ -48,7 +48,7 @@ const ButtonsContainer = ({ data, obligatory, setData }) => {
     let validation = checkIfFull();
 
     if (validation) {
-      addInDatabase(db, data, "local", setData, setShowModal);
+      addInDatabase(db, data, entity, setData, setShowModal, setSentData);
     }
   };
 

@@ -49,8 +49,10 @@ function UserMenu({ onClick, data }) {
         <button
           className={data !== "admin" ? "inactive" : ""}
           onClick={() => {
-            setModalContent("local");
-            setShowModal(true);
+            if (data === "admin") {
+              setModalContent("local");
+              setShowModal(true);
+            }
           }}
         >
           Agregar local
@@ -67,8 +69,10 @@ function UserMenu({ onClick, data }) {
         <button
           className={data !== "admin" ? "inactive" : ""}
           onClick={() => {
-            setModalContent("cupon");
-            setShowModal(true);
+            if (data === "admin") {
+              setModalContent("cupon");
+              setShowModal(true);
+            }
           }}
         >
           Agregar cupon

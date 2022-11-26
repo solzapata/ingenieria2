@@ -82,6 +82,7 @@ function FormLocal() {
       </FormContainer>
       <ButtonsContainer
         data={local}
+        entity="local"
         obligatory={["name", "state", "city", "address"]}
         setData={setLocal}
       />
