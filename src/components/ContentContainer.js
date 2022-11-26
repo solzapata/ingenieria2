@@ -6,7 +6,7 @@ const StyledContainer = styled.div`
   height: 100%;
   display: flex;
   justify-content: space-evenly;
-  padding: 0 0 2%;
+  padding: 3% 0 2%;
 `;
 
 function ContentContainer({ children }) {

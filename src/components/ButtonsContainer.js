@@ -33,6 +33,7 @@ const ButtonsContainer = ({ data, obligatory, setData }) => {
     let hasMandatoryKeys = true;
 
     try {
+      // eslint-disable-next-line array-callback-return
       obligatory?.map((e) => {
         if (!data.hasOwnProperty(e) || data?.[e] === "") {
           hasMandatoryKeys = false;
@@ -53,7 +54,6 @@ const ButtonsContainer = ({ data, obligatory, setData }) => {
 
   return (
     <Buttons>
-      <button>Cancelar</button>
       <button
         onClick={() => {
           handleSend();

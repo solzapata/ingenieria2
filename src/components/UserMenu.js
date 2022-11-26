@@ -53,7 +53,7 @@ function UserMenu({ onClick, data }) {
             setShowModal(true);
           }}
         >
-          Agregar locales
+          Agregar local
         </button>
 
         <p
@@ -71,7 +71,7 @@ function UserMenu({ onClick, data }) {
             setShowModal(true);
           }}
         >
-          Agregar cupones
+          Agregar cupon
         </button>
       </StyledMenu>
       {showModal && <Modal data={modalContent} accion="Agregar" />}

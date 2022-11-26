@@ -2,9 +2,8 @@ import "./App.css";
 import ContentContainer from "./components/ContentContainer";
 import { CuponProvider } from "./context/CuponContext";
 import { UserProvider } from "./context/UserContext";
-import Categorias from "./ui/Categorias";
 import Locales from "./ui/Locales";
-import Provincias from "./ui/Provincias";
+import Aside from "./ui/Aside";
 
 import PouchDB from "pouchdb-browser";
 import { Provider } from "use-pouchdb";
@@ -20,9 +19,8 @@ function App() {
       <UserProvider>
         <CuponProvider>
           <Menu />
-          <Categorias />
           <ContentContainer>
-            <Provincias />
+            <Aside />
             <Locales />
           </ContentContainer>
         </CuponProvider>
