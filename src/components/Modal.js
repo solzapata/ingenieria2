@@ -8,7 +8,7 @@ const StyledContainer = styled.div`
   display: flex;
   position: fixed;
   width: calc(500px - 60px);
-  height: calc(500px - 60px);
+  height: calc(600px - 60px);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -47,7 +47,7 @@ function Modal({ data, accion, editing, close }) {
         </h2>
       </div>
       {data === "cupon" ? (
-        <FormCupon />
+        <FormCupon editing={editing} close={close} />
       ) : (
         <FormLocal editing={editing} close={close} />
       )}

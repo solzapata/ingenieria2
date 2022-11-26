@@ -1,7 +1,7 @@
 import "./App.css";
 import ContentContainer from "./components/ContentContainer";
 import { UserProvider } from "./context/UserContext";
-import Locales from "./ui/Locales";
+import Content from "./ui/Content";
 import Aside from "./ui/Aside";
 
 import PouchDB from "pouchdb-browser";
@@ -19,7 +19,7 @@ function App() {
         <Menu />
         <ContentContainer>
           <Aside />
-          <Locales />
+          <Content />
         </ContentContainer>
       </UserProvider>
     </Provider>

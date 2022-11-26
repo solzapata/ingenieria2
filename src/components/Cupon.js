@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { usePouch } from "use-pouchdb";
 
-const StyledLocal = styled.div`
+import { getByIdInDatabase } from "../functions";
+
+const StyledCupon = styled.div`
   border: 1px solid black;
   border-radius: 6px;
   width: 30%;
@@ -45,22 +48,37 @@ const StyledLocal = styled.div`
   }
 `;
 
-export default function Local({ props }) {
+export default function Cupon({ props }) {
+  const [currentLocal, setCurrentLocal] = useState();
+
+  const db = usePouch();
+
+  useEffect(() => {
+    if (props?.local?.id) {
+      getByIdInDatabase(db, props?.local?.id, setCurrentLocal);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props]);
+
   return (
-    <StyledLocal>
-      <img src={props.img} alt="Local" />
+    <StyledCupon>
+      <img src={props.img} alt="Cupon" />
       <div>
         <h3>{props.name}</h3>
         <h4>
-          {props.descripcion} - {props.local}
+          {props.descripcion}{" "}
+          {currentLocal?.name ? " - " + currentLocal?.name : ""}
         </h4>
-        <p>{props.direccion}</p>
+        <p>
+          {(currentLocal?.address ? currentLocal?.address + " - " : "") +
+            (currentLocal?.city ? currentLocal?.city : "")}
+        </p>
         <button>
           <a href={props.pdf} target="_blank" rel="noreferrer">
             Descargar cupón
           </a>
         </button>
       </div>
-    </StyledLocal>
+    </StyledCupon>
   );
 }

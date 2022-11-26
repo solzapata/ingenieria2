@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { usePouch } from "use-pouchdb";
 
 import StyledAside from "../components/Aside";
@@ -7,9 +7,7 @@ import UserContext from "../context/UserContext";
 import { findByEntity } from "../functions";
 
 function Aside() {
-  const [locales, setLocales] = useState({});
-
-  const { sentData } = useContext(UserContext);
+  const { sentData, locales, setLocales } = useContext(UserContext);
 
   const db = usePouch();
 

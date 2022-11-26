@@ -78,3 +78,14 @@ export const editInDatabase = (db, id, data, close, setSentData) => {
       console.log(err);
     });
 };
+
+// SE CONSULTA UN ELEMENTO DE LA BDD DADO EL ID
+export const getByIdInDatabase = (db, id, setData) => {
+  db.get(id)
+    .then(function (response) {
+      setData(response);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+};
