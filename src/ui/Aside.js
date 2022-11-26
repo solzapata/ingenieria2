@@ -3,14 +3,12 @@ import { usePouch } from "use-pouchdb";
 
 import StyledAside from "../components/Aside";
 import Label from "../components/Label";
-import CuponContext from "../context/CuponContext";
 import UserContext from "../context/UserContext";
 import { findByEntity } from "../functions";
 
 function Aside() {
   const [locales, setLocales] = useState({});
 
-  const { selectedLocal, setSelectedLocal } = useContext(CuponContext);
   const { sentData } = useContext(UserContext);
 
   const db = usePouch();
@@ -22,7 +20,7 @@ function Aside() {
 
   return (
     <StyledAside>
-      <h3>Filtrar por local</h3>
+      <h3>Locales</h3>
       {locales?.docs?.length > 0 ? (
         locales?.docs?.map((e) => {
           return (
