@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import UserContext from "../context/UserContext";
 import FormCupon from "./FormCupon";
 
 import FormLocal from "./FormLocal";
@@ -36,20 +35,22 @@ const StyledContainer = styled.div`
   }
 `;
 
-function Modal({ data, accion }) {
-  const { setShowModal } = useContext(UserContext);
-
+function Modal({ data, accion, editing, close }) {
   return (
     <StyledContainer>
       <div>
         <h2>
           {accion} {data}
         </h2>
-        <h2 className="close" onClick={() => setShowModal(false)}>
+        <h2 className="close" onClick={() => close(false)}>
           X
         </h2>
       </div>
-      {data === "cupon" ? <FormCupon /> : <FormLocal />}
+      {data === "cupon" ? (
+        <FormCupon />
+      ) : (
+        <FormLocal editing={editing} close={close} />
+      )}
     </StyledContainer>
   );
 }

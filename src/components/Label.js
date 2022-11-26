@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { usePouch } from "use-pouchdb";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
 import UserContext from "../context/UserContext";
 import { deleteInDatabase } from "../functions";
+import Modal from "./Modal";
 
 const StyledLabel = styled.label`
   margin-bottom: 15px;
@@ -53,6 +54,8 @@ const StyledLabel = styled.label`
 `;
 
 function Label({ children, className, onClick }) {
+  const [showEditingModal, setShowEditingModal] = useState(false);
+
   const { user, setSentData } = useContext(UserContext);
 
   const db = usePouch();
@@ -61,13 +64,26 @@ function Label({ children, className, onClick }) {
     <StyledLabel className={className} onClick={() => onClick()}>
       <span className="name">{children.name}</span>
       {user === "admin" && (
-        <span className="icons">
-          <AiFillEdit className="edit" />
-          <AiFillDelete
-            className="delete"
-            onClick={() => deleteInDatabase(db, children._id, setSentData)}
-          />
-        </span>
+        <>
+          <span className="icons">
+            <AiFillEdit
+              className="edit"
+              onClick={() => setShowEditingModal(true)}
+            />
+            <AiFillDelete
+              className="delete"
+              onClick={() => deleteInDatabase(db, children._id, setSentData)}
+            />
+          </span>
+          {showEditingModal && (
+            <Modal
+              data={children.entity}
+              accion="Editar"
+              editing={children}
+              close={setShowEditingModal}
+            />
+          )}
+        </>
       )}
     </StyledLabel>
   );

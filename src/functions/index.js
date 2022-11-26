@@ -60,7 +60,7 @@ export const deleteInDatabase = (db, id, setSentData) => {
 };
 
 // SE EDITA UN ELEMENTO DE LA BDD SEGUN EL ID
-export const editInDatabase = (db, id, data) => {
+export const editInDatabase = (db, id, data, close, setSentData) => {
   db.get(id)
     .then(function (doc) {
       return db.put({
@@ -70,7 +70,9 @@ export const editInDatabase = (db, id, data) => {
       });
     })
     .then(function (response) {
-      // handle response
+      console.log(response);
+      close(false);
+      setSentData((prevSentData) => !prevSentData);
     })
     .catch(function (err) {
       console.log(err);

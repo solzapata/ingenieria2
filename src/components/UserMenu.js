@@ -78,7 +78,14 @@ function UserMenu({ onClick, data }) {
           Agregar cupon
         </button>
       </StyledMenu>
-      {showModal && <Modal data={modalContent} accion="Agregar" />}
+      {showModal && (
+        <Modal
+          data={modalContent}
+          accion="Agregar"
+          editing={[]}
+          close={setShowModal}
+        />
+      )}
     </>
   );
 }

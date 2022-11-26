@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { provincias } from "../data/provincias";
@@ -34,7 +34,7 @@ const Form = styled.div`
   }
 `;
 
-function FormLocal() {
+function FormLocal({ editing, close }) {
   const [local, setLocal] = useState({});
 
   const handleChange = (key, value) => {
@@ -42,6 +42,12 @@ function FormLocal() {
       return { ...prevLocal, [key]: value };
     });
   };
+
+  useEffect(() => {
+    if (editing?._id) {
+      setLocal({ ...editing });
+    }
+  }, [editing]);
 
   return (
     <>
@@ -85,6 +91,8 @@ function FormLocal() {
         entity="local"
         obligatory={["name", "state", "city", "address"]}
         setData={setLocal}
+        isEditing={local?._id ? true : false}
+        close={close}
       />
     </>
   );

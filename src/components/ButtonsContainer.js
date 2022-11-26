@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { usePouch } from "use-pouchdb";
 import UserContext from "../context/UserContext";
 
-import { addInDatabase } from "../functions";
+import { addInDatabase, editInDatabase } from "../functions";
 
 const Buttons = styled.div`
   display: flex;
@@ -22,8 +22,15 @@ const Buttons = styled.div`
   }
 `;
 
-const ButtonsContainer = ({ data, entity, obligatory, setData }) => {
-  const { setShowModal, setSentData } = useContext(UserContext);
+const ButtonsContainer = ({
+  data,
+  entity,
+  obligatory,
+  setData,
+  isEditing,
+  close,
+}) => {
+  const { setSentData } = useContext(UserContext);
 
   const db = usePouch();
 
@@ -48,7 +55,11 @@ const ButtonsContainer = ({ data, entity, obligatory, setData }) => {
     let validation = checkIfFull();
 
     if (validation) {
-      addInDatabase(db, data, entity, setData, setShowModal, setSentData);
+      if (isEditing) {
+        editInDatabase(db, data?._id, data, close, setSentData);
+      } else {
+        addInDatabase(db, data, entity, setData, close, setSentData);
+      }
     }
   };
 
