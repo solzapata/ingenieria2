@@ -24,14 +24,12 @@ function Content() {
       cupones?.docs?.filter((e) => {
         if (!!provinciaSelected && !!categoriaSelected) {
           return (
-            e?.local?.provincia === provinciaSelected &&
+            e?.state === provinciaSelected &&
             e?.descripcion === categoriaSelected
           );
-        }
-        // else if (!provinciaSelected) {
-        //   return e?.local?.provincia === provinciaSelected;
-        // }
-        else if (!!categoriaSelected) {
+        } else if (!!provinciaSelected) {
+          return e?.state === provinciaSelected;
+        } else if (!!categoriaSelected) {
           return e?.descripcion === categoriaSelected;
         } else {
           return e;
@@ -40,12 +38,7 @@ function Content() {
     );
   }, [cupones, provinciaSelected, categoriaSelected]);
 
-  //todo  FALTA FILTRAR POR PROVINCIAS (GUARDAR EN CUPON.LOCAL)
-  //todo  FALTA FILTRAR POR CATEGORIA Y PROVINCIA
   //todo  FALTA LO DEL ESCENARIO 2 DEL CASO DE USO 2
-
-  console.log(provinciaSelected);
-  console.log(categoriaSelected);
 
   return (
     <Container>

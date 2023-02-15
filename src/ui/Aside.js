@@ -81,11 +81,11 @@ function Aside() {
         provincias?.map((e) => {
           return (
             <Select
-              className={provinciaSelected === e.id ? "active" : ""}
+              className={provinciaSelected === e.name ? "active" : ""}
               key={e.id}
               onClick={() =>
                 setProvinciaSelected((prevProvinciaSelected) =>
-                  prevProvinciaSelected === e.id ? null : e.id
+                  prevProvinciaSelected === e.name ? null : e.name
                 )
               }
             >

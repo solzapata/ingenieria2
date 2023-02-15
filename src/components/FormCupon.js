@@ -18,6 +18,15 @@ const FormContainer = styled.div`
   & .invisible {
     opacity: 0;
   }
+
+  & .shared {
+    display: flex;
+
+    & div {
+      width: 49%;
+      justify-content: space-between;
+    }
+  }
 `;
 
 const Form = styled.div`
@@ -30,12 +39,15 @@ const Form = styled.div`
   }
 
   & input,
-  & select {
+  & select,
+  span {
     border-radius: 15px;
     padding: 5px;
     background-color: white;
     outline: none;
     border: 1px solid black;
+    font-size: 13px;
+    min-height: calc(29px - 10px);
 
     &:focus,
     &:focus-visible,
@@ -51,9 +63,19 @@ function FormCupon({ editing, close }) {
   const { locales } = useContext(UserContext);
 
   const handleChange = (key, value) => {
-    setCupon((prevLocal) => {
-      return { ...prevLocal, [key]: value };
-    });
+    if (key === "local") {
+      setCupon((prevLocal) => {
+        return {
+          ...prevLocal,
+          [key]: value,
+          state: locales?.docs?.find((e) => e._id === value?.id)?.state,
+        };
+      });
+    } else {
+      setCupon((prevLocal) => {
+        return { ...prevLocal, [key]: value };
+      });
+    }
   };
 
   useEffect(() => {
@@ -91,27 +113,35 @@ function FormCupon({ editing, close }) {
             })}
           </select>
         </Form>
-        <Form>
-          <label>Local</label>
-          <select
-            value={cupon?.local?.name ? cupon?.local?.name : ""}
-            onChange={(e) => {
-              handleChange("local", {
-                name: e.target.value,
-                id: e.target.options?.[e.target?.options.selectedIndex]?.id,
-              });
-            }}
-          >
-            <option></option>
-            {locales?.docs?.map((e) => {
-              return (
-                <option key={e._id} id={e._id}>
-                  {e.name}
-                </option>
-              );
-            })}
-          </select>
-        </Form>
+        <div className="shared">
+          <Form>
+            <label>Local</label>
+            <select
+              value={cupon?.local?.name ? cupon?.local?.name : ""}
+              onChange={(e) => {
+                handleChange("local", {
+                  name: e.target.value,
+                  id: e.target.options?.[e.target?.options.selectedIndex]?.id,
+                });
+              }}
+            >
+              <option></option>
+              {locales?.docs?.map((e) => {
+                return (
+                  <option key={e._id} id={e._id}>
+                    {e.name}
+                  </option>
+                );
+              })}
+            </select>
+          </Form>
+          <Form>
+            <label>Provincia</label>
+            <span>
+              {locales?.docs?.find((e) => e._id === cupon?.local?.id)?.state}
+            </span>
+          </Form>
+        </div>
         <Form>
           <label>Pdf descargable</label>
           <input
