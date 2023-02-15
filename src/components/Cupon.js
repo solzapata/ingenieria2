@@ -139,7 +139,7 @@ export default function Cupon({ props }) {
         </p>
         <button>
           <a href={props.pdf} target="_blank" rel="noreferrer">
-            Descargar cupón
+            Obtener cupón
           </a>
         </button>
       </div>

@@ -8,20 +8,49 @@ import { findByEntity } from "../functions";
 
 function Content() {
   const [cupones, setCupones] = useState({});
+  const [filteredCupones, setFilteredCupones] = useState({});
 
-  const { sentData } = useContext(UserContext);
+  const { sentData, provinciaSelected, categoriaSelected } =
+    useContext(UserContext);
 
   const db = usePouch();
 
   useEffect(() => {
     findByEntity(db, "cupon", setCupones);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sentData]);
+  }, [db, sentData]);
+
+  useEffect(() => {
+    setFilteredCupones(() =>
+      cupones?.docs?.filter((e) => {
+        if (!!provinciaSelected && !!categoriaSelected) {
+          return (
+            e?.local?.provincia === provinciaSelected &&
+            e?.descripcion === categoriaSelected
+          );
+        }
+        // else if (!provinciaSelected) {
+        //   return e?.local?.provincia === provinciaSelected;
+        // }
+        else if (!!categoriaSelected) {
+          return e?.descripcion === categoriaSelected;
+        } else {
+          return e;
+        }
+      })
+    );
+  }, [cupones, provinciaSelected, categoriaSelected]);
+
+  //todo  FALTA FILTRAR POR PROVINCIAS (GUARDAR EN CUPON.LOCAL)
+  //todo  FALTA FILTRAR POR CATEGORIA Y PROVINCIA
+  //todo  FALTA LO DEL ESCENARIO 2 DEL CASO DE USO 2
+
+  console.log(provinciaSelected);
+  console.log(categoriaSelected);
 
   return (
     <Container>
-      {cupones?.docs?.length > 0 ? (
-        cupones?.docs?.map((e) => {
+      {filteredCupones?.length > 0 ? (
+        filteredCupones?.map((e) => {
           return <Cupon key={e._id} props={e} />;
         })
       ) : (

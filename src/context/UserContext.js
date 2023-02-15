@@ -7,6 +7,8 @@ const UserProvider = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
   const [sentData, setSentData] = useState(false);
   const [locales, setLocales] = useState({});
+  const [provinciaSelected, setProvinciaSelected] = useState(null);
+  const [categoriaSelected, setCategoriaSelected] = useState(null);
 
   return (
     <UserContext.Provider
@@ -19,6 +21,10 @@ const UserProvider = ({ children }) => {
         setSentData,
         locales,
         setLocales,
+        provinciaSelected,
+        setProvinciaSelected,
+        categoriaSelected,
+        setCategoriaSelected,
       }}
     >
       {children}

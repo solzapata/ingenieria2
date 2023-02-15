@@ -6,6 +6,12 @@ const StyledContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   height: fit-content;
+
+  & .not-yet {
+    width: 100%;
+    text-align: center;
+    padding: 30px;
+  }
 `;
 
 function Container({ children }) {
