@@ -84,6 +84,7 @@ const Form = styled.div`
 
 function FormCupon({ editing, close }) {
   const [cupon, setCupon] = useState({});
+  const [hasMissingFields, setHasMissingFields] = useState(false);
 
   const { locales } = useContext(UserContext);
 
@@ -224,18 +225,20 @@ function FormCupon({ editing, close }) {
         >
           ESTE TIPO DE ARCHIVOS NO ES PERMITIDO
         </span>
-        <span
-          className={`alert ${
-            locales?.docs?.length > 0 ? "invisible" : "visible"
-          }`}
-        >
-          Atención! No vas a poder cargar cupones si no existen locales
-        </span>
+        {locales?.docs?.length === 0 && (
+          <span className="alert">
+            Atención! No vas a poder cargar cupones si no existen locales
+          </span>
+        )}
+        {hasMissingFields && (
+          <span className="alert">Faltan campos obligatorios</span>
+        )}
       </FormContainer>
       <ButtonsContainer
         data={cupon}
         entity="cupon"
         obligatory={["name", "img", "descripcion", "local", "pdf"]}
+        missingFields={setHasMissingFields}
         setData={setCupon}
         isEditing={cupon?._id ? true : false}
         close={close}

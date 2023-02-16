@@ -16,6 +16,14 @@ const FormContainer = styled.div`
       justify-content: space-between;
     }
   }
+
+  .alert {
+    font-size: 10px;
+    margin-top: 5px;
+    color: orangered;
+    border: none;
+    padding: 0;
+  }
 `;
 
 const Form = styled.div`
@@ -60,6 +68,7 @@ const Form = styled.div`
 
 function FormLocal({ editing, close }) {
   const [local, setLocal] = useState({});
+  const [hasMissingFields, setHasMissingFields] = useState(false);
 
   const handleChange = (key, value) => {
     setLocal((prevLocal) => {
@@ -82,7 +91,6 @@ function FormLocal({ editing, close }) {
   }, [local?.virtual]);
 
   // FALTA NO DEJAR GUARDAR SI YA EXISTE ESA DIRECCION
-  // falta "faltan campos requeridos"
 
   return (
     <>
@@ -148,6 +156,9 @@ function FormLocal({ editing, close }) {
             onChange={(e) => handleChange("web", e.target.value)}
           />
         </Form>
+        {hasMissingFields && (
+          <span className="alert">Faltan campos obligatorios</span>
+        )}
       </FormContainer>
       <ButtonsContainer
         data={local}
@@ -155,8 +166,9 @@ function FormLocal({ editing, close }) {
         obligatory={
           local?.virtual === true
             ? ["name", "contacto", "virtual", "web"]
-            : ["name", "contacto", "virtual", "state", "city", "address"]
+            : ["name", "contacto", "state", "city", "address"]
         }
+        missingFields={setHasMissingFields}
         setData={setLocal}
         isEditing={local?._id ? true : false}
         close={close}

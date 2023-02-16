@@ -26,6 +26,7 @@ const ButtonsContainer = ({
   data,
   entity,
   obligatory,
+  missingFields,
   setData,
   isEditing,
   close,
@@ -60,11 +61,14 @@ const ButtonsContainer = ({
     let validation = checkIfFull();
 
     if (validation) {
+      missingFields(false);
       if (isEditing) {
         editInDatabase(db, data?._id, data, close, setSentData);
       } else {
         addInDatabase(db, data, entity, setData, close, setSentData);
       }
+    } else {
+      missingFields(true);
     }
   };
 
