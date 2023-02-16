@@ -138,8 +138,8 @@ export default function Cupon({ props }) {
             (currentLocal?.city ? currentLocal?.city : "")}
         </p>
         <button>
-          <a href={props.pdf} target="_blank" rel="noreferrer">
-            Obtener cupón
+          <a download href={props.pdf} target="_blank" rel="noreferrer">
+            Descargar cupón
           </a>
         </button>
       </div>

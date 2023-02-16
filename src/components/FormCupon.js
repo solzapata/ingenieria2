@@ -121,14 +121,14 @@ function FormCupon({ editing, close }) {
     <>
       <FormContainer>
         <Form>
-          <label>Tipo de descuento (ej: 15% ó 2x1)</label>
+          <label>Tipo de descuento (ej: 15% ó 2x1) *</label>
           <input
             value={cupon?.name ? cupon?.name : ""}
             onChange={(e) => handleChange("name", e.target.value)}
           />
         </Form>
         <Form>
-          <label>Imagen descriptiva</label>
+          <label>Imagen descriptiva *</label>
           <input
             className="file"
             type="file"
@@ -156,7 +156,7 @@ function FormCupon({ editing, close }) {
           </span>
         </Form>
         <Form className="categoria">
-          <label>Categoría</label>
+          <label>Categoría *</label>
           <select
             value={cupon?.descripcion ? cupon?.descripcion : ""}
             onChange={(e) => handleChange("descripcion", e.target.value)}
@@ -169,7 +169,7 @@ function FormCupon({ editing, close }) {
         </Form>
         <div className="shared">
           <Form>
-            <label>Local</label>
+            <label>Local *</label>
             <select
               value={cupon?.local?.name ? cupon?.local?.name : ""}
               onChange={(e) => {
@@ -197,7 +197,7 @@ function FormCupon({ editing, close }) {
           </Form>
         </div>
         <Form>
-          <label>Pdf descargable</label>
+          <label>Pdf descargable *</label>
           <input
             className="file"
             type="file"

@@ -7,12 +7,36 @@ import ButtonsContainer from "./ButtonsContainer";
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
+
+  & .shared {
+    display: flex;
+
+    & div {
+      width: 49%;
+      justify-content: space-between;
+    }
+  }
 `;
 
 const Form = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
+  margin-top: 25px;
+
+  &.check {
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 180px;
+
+    & input {
+      width: 20px;
+      margin: 0;
+    }
+
+    & label {
+      margin-bottom: 0;
+    }
+  }
 
   & label {
     margin-bottom: 10px;
@@ -49,47 +73,90 @@ function FormLocal({ editing, close }) {
     }
   }, [editing]);
 
+  useEffect(() => {
+    if (local?.virtual === true) {
+      setLocal((prevLocal) => {
+        return { ...prevLocal, state: "", city: "", address: "" };
+      });
+    }
+  }, [local?.virtual]);
+
+  // FALTA NO DEJAR GUARDAR SI YA EXISTE ESA DIRECCION
+  // falta "faltan campos requeridos"
+
   return (
     <>
       <FormContainer>
         <Form>
-          <label>Nombre</label>
+          <label>Nombre *</label>
           <input
             value={local?.name ? local?.name : ""}
             onChange={(e) => handleChange("name", e.target.value)}
           />
         </Form>
         <Form>
-          <label>Provincia</label>
-          <select
-            value={local?.state ? local?.state : ""}
-            onChange={(e) => handleChange("state", e.target.value)}
-          >
-            <option></option>
-            {provincias.map((e) => {
-              return <option key={e.id}>{e.name}</option>;
-            })}
-          </select>
-        </Form>
-        <Form>
-          <label>Ciudad</label>
+          <label>Contacto *</label>
           <input
-            value={local?.city ? local?.city : ""}
-            onChange={(e) => handleChange("city", e.target.value)}
+            value={local?.contacto ? local?.contacto : ""}
+            onChange={(e) => handleChange("contacto", e.target.value)}
           />
         </Form>
-        <Form>
-          <label>Dirección</label>
+        <Form className="check">
+          <label>¿Es un local virtual? *</label>
           <input
-            value={local?.address ? local?.address : ""}
-            onChange={(e) => handleChange("address", e.target.value)}
+            checked={local?.virtual ? local?.virtual : false}
+            type="checkbox"
+            onChange={(e) => handleChange("virtual", e.target.checked)}
+          />
+        </Form>
+        {local?.virtual !== true && (
+          <>
+            <div className="shared">
+              <Form>
+                <label>Provincia *</label>
+                <select
+                  value={local?.state ? local?.state : ""}
+                  onChange={(e) => handleChange("state", e.target.value)}
+                >
+                  <option></option>
+                  {provincias.map((e) => {
+                    return <option key={e.id}>{e.name}</option>;
+                  })}
+                </select>
+              </Form>
+              <Form>
+                <label>Ciudad *</label>
+                <input
+                  value={local?.city ? local?.city : ""}
+                  onChange={(e) => handleChange("city", e.target.value)}
+                />
+              </Form>
+            </div>
+            <Form>
+              <label>Dirección *</label>
+              <input
+                value={local?.address ? local?.address : ""}
+                onChange={(e) => handleChange("address", e.target.value)}
+              />
+            </Form>
+          </>
+        )}
+        <Form>
+          <label>Página web o red social {local?.virtual && "*"}</label>
+          <input
+            value={local?.web ? local?.web : ""}
+            onChange={(e) => handleChange("web", e.target.value)}
           />
         </Form>
       </FormContainer>
       <ButtonsContainer
         data={local}
         entity="local"
-        obligatory={["name", "state", "city", "address"]}
+        obligatory={
+          local?.virtual === true
+            ? ["name", "contacto", "virtual", "web"]
+            : ["name", "contacto", "virtual", "state", "city", "address"]
+        }
         setData={setLocal}
         isEditing={local?._id ? true : false}
         close={close}
