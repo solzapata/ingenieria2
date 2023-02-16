@@ -49,7 +49,6 @@ const StyledCupon = styled.div`
 
     & button {
       border: none;
-      padding: 5px;
       background-color: #005b96;
       color: #fff;
       border-radius: 10px;
@@ -60,6 +59,7 @@ const StyledCupon = styled.div`
         text-decoration: none;
         color: #fff;
         display: block;
+        padding: 5px;
       }
     }
   }
