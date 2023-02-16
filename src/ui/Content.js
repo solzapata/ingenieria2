@@ -38,8 +38,6 @@ function Content() {
     );
   }, [cupones, provinciaSelected, categoriaSelected]);
 
-  //todo  FALTA LO DEL ESCENARIO 2 DEL CASO DE USO 2
-
   return (
     <Container>
       {filteredCupones?.length > 0 ? (

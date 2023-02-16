@@ -10,9 +10,11 @@ const FormContainer = styled.div`
   flex-direction: column;
 
   & .alert {
-    font-size: 12px;
-    margin-top: 10px;
+    font-size: 10px;
+    margin-top: 5px;
     color: orangered;
+    border: none;
+    padding: 0;
   }
 
   & .invisible {
@@ -38,6 +40,10 @@ const Form = styled.div`
     margin-bottom: 10px;
   }
 
+  &.categoria {
+    margin-top: 10px;
+  }
+
   & input,
   & select,
   span {
@@ -48,12 +54,31 @@ const Form = styled.div`
     border: 1px solid black;
     font-size: 13px;
     min-height: calc(29px - 10px);
+    position: relative;
 
     &:focus,
     &:focus-visible,
     &:focus-within {
       outline: none;
     }
+
+    &[type="file"]::file-selector-button {
+      background-color: #005b96;
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      max-height: 31px;
+      height: 31px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+    }
+  }
+
+  & .file {
+    padding-left: 140px;
   }
 `;
 
@@ -84,6 +109,14 @@ function FormCupon({ editing, close }) {
     }
   }, [editing]);
 
+  const fileToBase64 = async (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (e) => reject(e);
+    });
+
   return (
     <>
       <FormContainer>
@@ -95,13 +128,34 @@ function FormCupon({ editing, close }) {
           />
         </Form>
         <Form>
-          <label>Url de imagen descriptiva</label>
+          <label>Imagen descriptiva</label>
           <input
-            value={cupon?.img ? cupon?.img : ""}
-            onChange={(e) => handleChange("img", e.target.value)}
+            className="file"
+            type="file"
+            accept="image/png, image/jpg, image/jpeg"
+            onChange={async (e) => {
+              if (e.target.files.length !== 0) {
+                const file = e.target.files[0];
+
+                if (file?.type?.includes("image")) {
+                  const imageStr = await fileToBase64(file);
+
+                  handleChange("img", imageStr);
+                } else {
+                  handleChange("img", "NOT AN IMAGE");
+                }
+              }
+            }}
           />
+          <span
+            className={`alert ${
+              cupon?.img === "NOT AN IMAGE" ? "visible" : "invisible"
+            }`}
+          >
+            ESTE TIPO DE ARCHIVOS NO ES PERMITIDO
+          </span>
         </Form>
-        <Form>
+        <Form className="categoria">
           <label>Categoría</label>
           <select
             value={cupon?.descripcion ? cupon?.descripcion : ""}
@@ -145,10 +199,31 @@ function FormCupon({ editing, close }) {
         <Form>
           <label>Pdf descargable</label>
           <input
-            value={cupon?.pdf ? cupon?.pdf : ""}
-            onChange={(e) => handleChange("pdf", e.target.value)}
+            className="file"
+            type="file"
+            accept="application/pdf"
+            onChange={async (e) => {
+              if (e.target.files.length !== 0) {
+                const file = e.target.files[0];
+
+                if (file?.type?.includes("pdf")) {
+                  const imageStr = await fileToBase64(file);
+
+                  handleChange("pdf", imageStr);
+                } else {
+                  handleChange("pdf", "NOT A PDF");
+                }
+              }
+            }}
           />
         </Form>
+        <span
+          className={`alert ${
+            cupon?.pdf === "NOT A PDF" ? "visible" : "invisible"
+          }`}
+        >
+          ESTE TIPO DE ARCHIVOS NO ES PERMITIDO
+        </span>
         <span
           className={`alert ${
             locales?.docs?.length > 0 ? "invisible" : "visible"

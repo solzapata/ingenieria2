@@ -42,7 +42,12 @@ const ButtonsContainer = ({
     try {
       // eslint-disable-next-line array-callback-return
       obligatory?.map((e) => {
-        if (!data.hasOwnProperty(e) || data?.[e] === "") {
+        if (
+          !data.hasOwnProperty(e) ||
+          data?.[e] === "" ||
+          (e === "img" && data?.[e] === "NOT AN IMAGE") ||
+          (e === "pdf" && data?.[e] === "NOT A PDF")
+        ) {
           hasMandatoryKeys = false;
         }
       });
