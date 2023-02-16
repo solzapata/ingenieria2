@@ -69,6 +69,7 @@ const Form = styled.div`
 function FormLocal({ editing, close }) {
   const [local, setLocal] = useState({});
   const [hasMissingFields, setHasMissingFields] = useState(false);
+  const [addressAlreadyExists, setAddressAlreadyExists] = useState(false);
 
   const handleChange = (key, value) => {
     setLocal((prevLocal) => {
@@ -89,8 +90,6 @@ function FormLocal({ editing, close }) {
       });
     }
   }, [local?.virtual]);
-
-  // FALTA NO DEJAR GUARDAR SI YA EXISTE ESA DIRECCION
 
   return (
     <>
@@ -149,6 +148,9 @@ function FormLocal({ editing, close }) {
             </Form>
           </>
         )}
+        {addressAlreadyExists && (
+          <span className="alert">Parece que este local ya existe</span>
+        )}
         <Form>
           <label>Página web o red social {local?.virtual && "*"}</label>
           <input
@@ -172,6 +174,7 @@ function FormLocal({ editing, close }) {
         setData={setLocal}
         isEditing={local?._id ? true : false}
         close={close}
+        setAlreadyExists={setAddressAlreadyExists}
       />
     </>
   );

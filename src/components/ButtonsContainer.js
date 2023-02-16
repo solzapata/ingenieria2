@@ -30,8 +30,9 @@ const ButtonsContainer = ({
   setData,
   isEditing,
   close,
+  setAlreadyExists,
 }) => {
-  const { setSentData } = useContext(UserContext);
+  const { setSentData, locales } = useContext(UserContext);
 
   const db = usePouch();
 
@@ -57,18 +58,43 @@ const ButtonsContainer = ({
     }
   };
 
-  const handleSend = () => {
-    let validation = checkIfFull();
-
-    if (validation) {
-      missingFields(false);
-      if (isEditing) {
-        editInDatabase(db, data?._id, data, close, setSentData);
+  const checkIfAlreadyExists = () => {
+    if (entity === "local") {
+      if (data?.virtual) {
+        let existing = locales?.docs?.find((e) => e.web === data?.web);
+        setAlreadyExists(existing ? true : false);
+        return existing ? true : false;
       } else {
-        addInDatabase(db, data, entity, setData, close, setSentData);
+        let existing = locales?.docs?.find(
+          (e) =>
+            e.state === data?.state &&
+            e.city === data?.city &&
+            e.address === data?.address
+        );
+        setAlreadyExists(existing ? true : false);
+        return existing ? true : false;
       }
     } else {
-      missingFields(true);
+      return false;
+    }
+  };
+
+  const handleSend = () => {
+    let alreadyExists = checkIfAlreadyExists();
+
+    let validation = checkIfFull();
+
+    if (alreadyExists === false) {
+      if (validation) {
+        missingFields(false);
+        if (isEditing) {
+          editInDatabase(db, data?._id, data, close, setSentData);
+        } else {
+          addInDatabase(db, data, entity, setData, close, setSentData);
+        }
+      } else {
+        missingFields(true);
+      }
     }
   };
 
