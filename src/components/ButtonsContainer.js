@@ -60,11 +60,12 @@ const ButtonsContainer = ({
 
   const checkIfAlreadyExists = () => {
     if (entity === "local") {
-      if (data?.virtual) {
+      if (data?.virtual === true && data?.web) {
         let existing = locales?.docs?.find((e) => e.web === data?.web);
         setAlreadyExists(existing ? true : false);
         return existing ? true : false;
-      } else {
+      } else if (!data?.virtual) {
+        console.log(data);
         let existing = locales?.docs?.find(
           (e) =>
             e.state === data?.state &&
@@ -80,21 +81,21 @@ const ButtonsContainer = ({
   };
 
   const handleSend = () => {
-    let alreadyExists = checkIfAlreadyExists();
-
     let validation = checkIfFull();
 
-    if (alreadyExists === false) {
-      if (validation) {
+    if (validation) {
+      let alreadyExists = checkIfAlreadyExists();
+
+      if (alreadyExists === false || alreadyExists === undefined) {
         missingFields(false);
         if (isEditing) {
           editInDatabase(db, data?._id, data, close, setSentData);
         } else {
           addInDatabase(db, data, entity, setData, close, setSentData);
         }
-      } else {
-        missingFields(true);
       }
+    } else {
+      missingFields(true);
     }
   };
 

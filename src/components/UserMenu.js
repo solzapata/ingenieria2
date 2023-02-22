@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import UserContext from "../context/UserContext";
 import Modal from "./Modal";
@@ -42,6 +42,21 @@ function UserMenu({ onClick, data }) {
   const [modalContent, setModalContent] = useState("");
 
   const { showModal, setShowModal } = useContext(UserContext);
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  const handleBeforeUnload = (e) => {
+    e.preventDefault();
+    const message =
+      "Es posible que los cambios que implementaste no se puedan guardar.";
+    e.returnValue = message;
+    return message;
+  };
 
   return (
     <>
